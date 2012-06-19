@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	ma = malloc(sizeof(struct m));
 	ma->t.a = 5;
 	ma->b = 3;
-	/* pointer to existing entry */    
+	/* pointer to existing entry */
 	struct test *te = &ma->t;
 
 	struct m *m = CONT(te, struct m, t);
