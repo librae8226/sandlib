@@ -3,28 +3,30 @@
 
 #include "list.h"
 
+#define LENGTH_OF_NAME	20
 
 struct kool_list{
-	int to;
 	struct list_head list;
+	int to;
 	int from;
+	char name[LENGTH_OF_NAME];
 };
 
-int main(int argc, char **argv){
-
+int main(int argc, char *argv[])
+{
 	struct kool_list *tmp;
 	struct list_head *pos, *q;
 	unsigned int i;
-
 	struct kool_list mylist;
+
 	INIT_LIST_HEAD(&mylist.list);
 	/* or you could have declared this with the following macro
 	 * LIST_HEAD(mylist); which declares and initializes the list
 	 */
 
 	/* adding elements to mylist */
-	for(i=5; i!=0; --i){
-		tmp= (struct kool_list *)malloc(sizeof(struct kool_list));
+	for (i = 5; i != 0; --i) {
+		tmp = (struct kool_list *)malloc(sizeof(struct kool_list));
 
 		/* INIT_LIST_HEAD(&tmp->list);
 		 *
@@ -33,11 +35,11 @@ int main(int argc, char **argv){
 		 * anything along that line because the next, prev
 		 * fields get initialized in those functions.
 		 */
-		printf("enter to and from:");
-		scanf("%d %d", &tmp->to, &tmp->from);
+		printf("enter name, to and from: ");
+		scanf("%s %d %d", &tmp->name, &tmp->to, &tmp->from);
 
 		/* add the new item 'tmp' to the list of items in mylist */
-		list_add(&(tmp->list), &(mylist.list));
+		list_add_tail(&(tmp->list), &(mylist.list));
 		/* you can also use list_add_tail() which adds new items to
 		 * the tail end of the list
 		 */
@@ -56,7 +58,7 @@ int main(int argc, char **argv){
 	 * second parameter is the pointer to the list. it is not manipulated by the macro.
 	 */
 	printf("traversing the list using list_for_each()\n");
-	list_for_each(pos, &mylist.list){
+	list_for_each(pos, &mylist.list) {
 
 		/* at this point: pos->next points to the next item's 'list' variable and
 		 * pos->prev points to the previous item's 'list' variable. Here item is
@@ -64,7 +66,7 @@ int main(int argc, char **argv){
 		 * variable 'list' in the item! macro list_entry() does just that. See "How
 		 * does this work?" below for an explanation of how this is done.
 		 */
-		tmp= list_entry(pos, struct kool_list, list);
+		tmp = list_entry(pos, struct kool_list, list);
 
 		/* given a pointer to struct list_head, type of data structure it is part of,
 		 * and it's name (struct list_head's name in the data structure) it returns a
@@ -73,7 +75,7 @@ int main(int argc, char **argv){
 		 * struct kool_list item it is embedded in!
 		 */
 
-		printf("to= %d from= %d\n", tmp->to, tmp->from);
+		printf("name: %s, to: %d from: %d\n", tmp->name, tmp->to, tmp->from);
 
 	}
 	printf("\n");
@@ -86,7 +88,7 @@ int main(int argc, char **argv){
 	 */
 	printf("traversing the list using list_for_each_entry()\n");
 	list_for_each_entry(tmp, &mylist.list, list)
-		printf("to= %d from= %d\n", tmp->to, tmp->from);
+		printf("name = %s, to = %d from = %d\n", tmp->name, tmp->to, tmp->from);
 	printf("\n");
 
 
@@ -96,9 +98,9 @@ int main(int argc, char **argv){
 	 * involves deletions of items (or moving items from one list to another).
 	 */
 	printf("deleting the list using list_for_each_safe()\n");
-	list_for_each_safe(pos, q, &mylist.list){
-		tmp= list_entry(pos, struct kool_list, list);
-		printf("freeing item to= %d from= %d\n", tmp->to, tmp->from);
+	list_for_each_safe(pos, q, &mylist.list) {
+		tmp = list_entry(pos, struct kool_list, list);
+		printf("freeing item name: %s, to: %d from: %d\n", tmp->name, tmp->to, tmp->from);
 		list_del(pos);
 		free(tmp);
 	}
