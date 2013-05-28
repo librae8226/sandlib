@@ -1,0 +1,52 @@
+#
+# Customizations
+#
+
+SRC_DIR := ./src
+INC_DIR := ./inc
+APP_DIR := ./test
+LIB_DIR := .
+
+LIB_NAME := i2c
+TARGET_LIB := lib$(LIB_NAME).so
+TARGET_APP := test_i2c
+
+SRCS := $(SRC_DIR)/i2c_dev.c
+APP_SRCS := $(APP_DIR)/eeprom.c
+
+CC = arm-none-linux-gnueabi-gcc
+
+#
+# Common rules and targets
+#
+
+CFLAGS = -I$(INC_DIR) -fPIC -Wall -Wextra -O2 -g
+APPCFLAGS = -I$(INC_DIR) -Wall -O2 -g
+LDFLAGS = -shared
+APPLDFLAGS = -L$(LIB_DIR) -l$(LIB_NAME)
+RM = rm -f
+
+OBJS = $(SRCS:.c=.o)
+APP_OBJS = $(APP_SRCS:.c=.o)
+
+.PHONY: all
+all: ${TARGET_APP} ${TARGET_LIB}
+
+$(TARGET_LIB): $(OBJS)
+	$(CC) ${LDFLAGS} -o $@ $^
+$(TARGET_APP): $(APP_OBJS) $(TARGET_LIB)
+	$(CC) $(APPLDFLAGS) -o $@ $^
+
+$(SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< >$@
+$(APP_SRCS:.c=.d):%.d:%.c
+	$(CC) $(APPCFLAGS) -MM $< >$@
+
+include $(SRCS:.c=.d)
+include $(APP_SRCS:.c=.d)
+
+.PHONY: clean
+clean:
+	-${RM} ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
+	-${RM} ${TARGET_APP} ${APP_OBJS} $(APP_SRCS:.c=.d)
+
