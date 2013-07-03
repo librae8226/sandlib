@@ -10,8 +10,7 @@
 
 void error(const char *);
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int sockfd, servlen, n;
 	struct sockaddr_un serv_addr;
@@ -43,8 +42,7 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-void
-error(const char *msg)
+void error(const char *msg)
 {
 	perror(msg);
 	exit(0);

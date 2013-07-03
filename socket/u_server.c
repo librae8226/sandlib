@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 	if (newsockfd < 0)
 		error("accepting");
 	while (1) {
+		memset(buf, 0, 80);
 		n = read(newsockfd, buf, 80);
 		printf("A connection has been established\n");
 		write(1, buf, n);
