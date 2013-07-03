@@ -26,13 +26,19 @@ int main(int argc, char *argv[])
 	if (connect(sockfd, (struct sockaddr *)
 				&serv_addr, servlen) < 0)
 		error("Connecting");
-	printf("Please enter your message: ");
-	bzero(buffer,82);
-	fgets(buffer,80,stdin);
-	write(sockfd,buffer,strlen(buffer));
-	n=read(sockfd,buffer,80);
-	printf("The return message was\n");
-	write(1,buffer,n);
+	while (1) {
+		printf("Please enter your message: ");
+		bzero(buffer,82);
+		fgets(buffer,80,stdin);
+		write(sockfd,buffer,strlen(buffer));
+		n=read(sockfd,buffer,80);
+		printf("The return message was: ");
+		printf("%s", buffer);
+		if (strcmp(buffer, "bye\n") == 0) {
+			printf("see u next time\n", buffer);
+			break;
+		}
+	}
 	close(sockfd);
 	return 0;
 }

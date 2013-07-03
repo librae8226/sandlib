@@ -34,12 +34,19 @@ int main(int argc, char *argv[])
 			sockfd,(struct sockaddr *)&cli_addr,&clilen);
 	if (newsockfd < 0)
 		error("accepting");
-	n=read(newsockfd,buf,80);
-	printf("A connection has been established\n");
-	write(1,buf,n);
-	write(newsockfd,"I got your message\n",19);
+	while (1) {
+		n=read(newsockfd,buf,80);
+		printf("A connection has been established\n");
+		write(1,buf,n);
+		if (strcmp(buf, "bye\n") == 0) {
+			write(newsockfd,"bye",3);
+			break;
+		}
+		write(newsockfd,"I got your message\n",19);
+	}
 	close(newsockfd);
 	close(sockfd);
+	unlink(serv_addr.sun_path);
 	return 0;
 }
 
