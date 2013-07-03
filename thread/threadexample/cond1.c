@@ -66,7 +66,7 @@ void *functionCount2()
 		}
 		else
 		{
-			/*count++;*/
+			count++;
 			sleep(2);
 			printf("Counter value functionCount2: %d\n",count);
 		}

@@ -20,7 +20,6 @@ struct _operations
 	void (*write)(int data);
 	void (*close)(void);
 };
-
 pthread_t thread[2];
 pthread_mutex_t mut;
 int number = 0;
