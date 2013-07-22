@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		 * fields get initialized in those functions.
 		 */
 		printf("enter name, to and from: ");
-		scanf("%s %d %d", &tmp->name, &tmp->to, &tmp->from);
+		scanf("%s %d %d", tmp->name, &tmp->to, &tmp->from);
 
 		/* add the new item 'tmp' to the list of items in mylist */
 		list_add_tail(&(tmp->list), &(mylist.list));

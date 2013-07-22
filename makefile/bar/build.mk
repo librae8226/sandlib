@@ -1,5 +1,6 @@
 # CFLAGS for module 'bar'
 CFLAGS_bar :=
+LDFLAGS_bar := -Llib -lbaz
 
 # Executable to build in module 'bar'
 bar_PROGRAM := bar
