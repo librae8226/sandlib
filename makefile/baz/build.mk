@@ -5,4 +5,4 @@ CFLAGS_baz := -fPIC
 baz_LIBRARY:= libbaz
 
 # Sources for the archive / lib 'libbaz.a' (without headers)
-libbaz_SOURCES := baz.c
+libbaz_SOURCES := src/baz.c
