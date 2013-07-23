@@ -1,6 +1,6 @@
 # CFLAGS for module 'test'
-CFLAGS_bar :=
-LDFLAGS_bar :=
+CFLAGS_test :=
+LDFLAGS_test :=
 
 # Executable to build in module 'bar'
 BINARY_test := test

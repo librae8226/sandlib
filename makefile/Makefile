@@ -75,4 +75,4 @@ clean:
 	@$(RM) $(BINDIR)/* $(LIBDIR)/*
 
 distclean: clean
-	$(RM) -r $(OUTDIR)
+	@$(RM) -r $(OUTDIR)
