@@ -3,11 +3,11 @@ CFLAGS_bar :=
 LDFLAGS_bar :=
 
 # Executable to build in module 'bar'
-test_PROGRAM := test
+BINARY_test := test
 
 # Libraries that the executable depends on:
-test_LIBRARIES :=
+LIBRARIES_test :=
 
 # Sources for the executable 'test' (without headers)
-test_SOURCES := \
+SOURCES_test := \
 	main.c

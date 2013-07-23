@@ -3,12 +3,12 @@ CFLAGS_bar :=
 LDFLAGS_bar := -L$(LIBDIR) -lbaz
 
 # Executable to build in module 'bar'
-bar_PROGRAM := bar
+BINARY_bar := bar
 
 # Libraries that the executable depends on:
-bar_LIBRARIES := libbaz.a
+LIBRARIES_bar := libbaz.a
 
 # Sources for the executable 'bar' (without headers)
-bar_SOURCES := \
+SOURCES_bar := \
 	src/kool.c \
 	src/test/koo.c \

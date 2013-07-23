@@ -2,7 +2,7 @@
 CFLAGS_baz := -fPIC
 
 # Archive / Lib to build in module 'baz'
-baz_LIBRARY:= libbaz
+LIBRARY_baz:= libbaz
 
 # Sources for the archive / lib 'libbaz.a' (without headers)
-libbaz_SOURCES := src/baz.c
+SOURCES_baz := src/baz.c
