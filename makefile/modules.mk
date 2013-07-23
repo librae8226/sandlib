@@ -2,5 +2,5 @@
 
 MODULES := \
 	bar \
-	baz \
+	libbaz \
 	test \

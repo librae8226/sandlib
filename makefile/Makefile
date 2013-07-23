@@ -50,8 +50,8 @@ define LIBRARY_template
 DEPENDENCIES := $(DEPENDENCIES) $(patsubst %,$(2)/%.d,$(basename $(SOURCES_$(1))))
 TARGETS += $(LIBDIR)/$(1).a
 $(LIBDIR)/$(1).a: $(patsubst %,$(2)/%.o,$(basename $(SOURCES_$(1))))
-	$$(AR) $$(ARFLAGS) $$@
-	$(CC) -fPIC -shared -Wl,-whole-archive $$@ -Wl,--no-whole-archive -o $(LIBDIR)/$(1).so
+	$$(AR) $$(ARFLAGS) $$@ $$?
+	$$(CC) -fPIC -shared -Wl,-whole-archive $$@ -Wl,--no-whole-archive -o $(LIBDIR)/$(1).so
 endef
 
 # Now, instantiating the templates for each module.
