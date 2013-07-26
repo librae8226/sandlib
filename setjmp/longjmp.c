@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 
 	/* save calling environment for longjmp */
 	val = setjmp(env_buffer);
+	printf("setjmp returns 0x%x\n", val);
 	if (val != 0) {
 		printf("Returned from a longjmp() with value = %s\n", val);
 		exit(0);
