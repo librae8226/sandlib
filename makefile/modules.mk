@@ -1,6 +1,6 @@
 # Add your modules that to be built
 
-MODULES := \
-	bar \
-	libbaz \
-	test \
+MODULES :=
+MODULES += bar
+MODULES += libbaz
+MODULES += test
