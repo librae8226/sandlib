@@ -46,6 +46,7 @@ static char map[Y_SIZE][X_SIZE] = {
 
 static int x_cur, y_cur;
 static int steps = 0;
+static char sequence[256] = {0};
 
 static long original_term_flags;
 static long original_filemode;
@@ -151,6 +152,7 @@ static void print_map(const char map[Y_SIZE][X_SIZE])
 	}
 	printf("\n");
 	printf("steps: %d\n", steps);
+	printf("sequence: %s\n", sequence);
 }
 
 static int match_map(const char map[Y_SIZE][X_SIZE], const char map_target[Y_SIZE][X_SIZE])
@@ -169,6 +171,7 @@ static int letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur][x_cur - 1];
 			map[y_cur][x_cur - 1] = tmp;
 			x_cur -= 1;
+			sequence[steps] = 'L';
 			steps++;
 		}
 		print_map(map);
@@ -179,6 +182,7 @@ static int letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur + 1][x_cur];
 			map[y_cur + 1][x_cur] = tmp;
 			y_cur += 1;
+			sequence[steps] = 'D';
 			steps++;
 		}
 		print_map(map);
@@ -189,6 +193,7 @@ static int letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur - 1][x_cur];
 			map[y_cur - 1][x_cur] = tmp;
 			y_cur -= 1;
+			sequence[steps] = 'U';
 			steps++;
 		}
 		print_map(map);
@@ -199,6 +204,7 @@ static int letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur][x_cur + 1];
 			map[y_cur][x_cur + 1] = tmp;
 			x_cur += 1;
+			sequence[steps] = 'R';
 			steps++;
 		}
 		print_map(map);
