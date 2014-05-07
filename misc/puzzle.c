@@ -30,14 +30,22 @@
 
 #define none	"\033[0m"	/* to flush the previous property */
 
-static char map[Y_SIZE][X_SIZE] = {
+static char map_target[Y_SIZE][X_SIZE] = {
 	{'W', 'R', 'B', 'B'},
 	{'R', 'R', 'B', 'B'},
 	{'R', 'R', 'B', 'B'},
 	{'R', 'R', 'B', 'B'}
 };
 
+static char map[Y_SIZE][X_SIZE] = {
+	{'W', 'B', 'R', 'B'},
+	{'B', 'R', 'B', 'R'},
+	{'R', 'B', 'R', 'B'},
+	{'B', 'R', 'B', 'R'}
+};
+
 static int x_cur, y_cur;
+static int steps = 0;
 
 static long original_term_flags;
 static long original_filemode;
@@ -129,9 +137,28 @@ static void print_map(const char map[Y_SIZE][X_SIZE])
 		}
 		printf("\n");
 	}
+	printf("\n");
+	for (i = 0; i < Y_SIZE; i++) {
+		for (j = 0; j < X_SIZE; j++) {
+			if (map_target[i][j] == 'R')
+				printf("%s%c%s", red, map_target[i][j], none);
+			else if (map_target[i][j] == 'B')
+				printf("%s%c%s", blue, map_target[i][j], none);
+			else
+				printf("%c", map_target[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+	printf("steps: %d\n", steps);
 }
 
-static void letsmove(unsigned int dir)
+static int match_map(const char map[Y_SIZE][X_SIZE], const char map_target[Y_SIZE][X_SIZE])
+{
+	return memcmp(map, map_target, Y_SIZE * X_SIZE);
+}
+
+static int letsmove(unsigned int dir)
 {
 	char tmp;
 
@@ -142,6 +169,7 @@ static void letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur][x_cur - 1];
 			map[y_cur][x_cur - 1] = tmp;
 			x_cur -= 1;
+			steps++;
 		}
 		print_map(map);
 		break;
@@ -151,6 +179,7 @@ static void letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur + 1][x_cur];
 			map[y_cur + 1][x_cur] = tmp;
 			y_cur += 1;
+			steps++;
 		}
 		print_map(map);
 		break;
@@ -160,6 +189,7 @@ static void letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur - 1][x_cur];
 			map[y_cur - 1][x_cur] = tmp;
 			y_cur -= 1;
+			steps++;
 		}
 		print_map(map);
 		break;
@@ -169,12 +199,15 @@ static void letsmove(unsigned int dir)
 			map[y_cur][x_cur] = map[y_cur][x_cur + 1];
 			map[y_cur][x_cur + 1] = tmp;
 			x_cur += 1;
+			steps++;
 		}
 		print_map(map);
 		break;
 	default:
 		break;
 	}
+
+	return match_map(map, map_target);
 }
 
 static void process_user_input(void)
@@ -183,10 +216,10 @@ static void process_user_input(void)
 	keyboard_open();
 	while (1) {
 		c = keyboard_getkey();
-		if (c == 0) {
+		if (c == 0)
 			usleep(20000);
-		}
-		letsmove(c);
+		if (letsmove(c) == 0)
+			break;
 	}
 	keyboard_close();
 }
