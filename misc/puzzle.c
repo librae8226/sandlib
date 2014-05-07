@@ -174,7 +174,7 @@ static int letsmove(unsigned int dir)
 			sequence[steps] = 'L';
 			steps++;
 		}
-		print_map(map);
+		print_map((const char (*)[])map);
 		break;
 	case 'j':
 		if (y_cur != Y_SIZE - 1) {
@@ -185,7 +185,7 @@ static int letsmove(unsigned int dir)
 			sequence[steps] = 'D';
 			steps++;
 		}
-		print_map(map);
+		print_map((const char (*)[])map);
 		break;
 	case 'k':
 		if (y_cur != 0) {
@@ -196,7 +196,7 @@ static int letsmove(unsigned int dir)
 			sequence[steps] = 'U';
 			steps++;
 		}
-		print_map(map);
+		print_map((const char (*)[])map);
 		break;
 	case 'l':
 		if (x_cur != X_SIZE - 1) {
@@ -207,13 +207,13 @@ static int letsmove(unsigned int dir)
 			sequence[steps] = 'R';
 			steps++;
 		}
-		print_map(map);
+		print_map((const char (*)[])map);
 		break;
 	default:
 		break;
 	}
 
-	return match_map(map, map_target);
+	return match_map((const char (*)[])map, (const char (*)[])map_target);
 }
 
 static void process_user_input(void)
@@ -232,9 +232,9 @@ static void process_user_input(void)
 
 int main(int argc, char *argv[])
 {
-	find_cur_point(map, &x_cur, &y_cur);
+	find_cur_point((const char (*)[])map, &x_cur, &y_cur);
 	printf("start point (%d, %d)\n", x_cur, y_cur);
-	print_map(map);
+	print_map((const char (*)[])map);
 	process_user_input();
 	return 0;
 }
