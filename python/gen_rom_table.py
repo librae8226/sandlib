@@ -26,6 +26,6 @@ for l in lines:
     if items[1] == 'T':
         s = '#define' + ' ' + items[1] + '__' + items[2].upper()
         a = '0x' + items[0]
-        print ('{0:55s} {1:20s}'.format(s, a))
+        print ('{0:55s} {1:10s}'.format(s, a))
 
 print '\n#endif /* __ROM_TABLE_H__ */'
