@@ -12,11 +12,12 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 @click.option('--path', type = click.Path())
 @pass_config
 def cli(opt, debug, path):
-	'''
-	This script evaluates portfolio.\n
+	'''This script evaluates portfolio.\n
 	e.g.\n
-	port eval --mode w -f 1 -g 0.01\n
-	port reval --mode y -r 5.0 -n 2
+	# revenue of 1.0 initlal fund with weekly 0.01 growth:\n
+	port eval --mode w -f 1.0 -g 0.01\n
+	# growth of growing to 5 times revenue in 2 years:\n
+	port reval --mode y -r 5.0 -n 2\n
 	'''
 
 	opt.debug = debug
@@ -51,36 +52,26 @@ def eval(opt, mode, f, g, out):
 		rw = pow(rd , 7)
 		rm = pow(rd, 30)
 		ry = pow(rd, 365)
-		click.echo(' 1d: %f' %rd)
-		click.echo(' 1w: %f' %rw)
-		click.echo(' 1m: %f' %rm)
-		click.echo(' 2m: %f' %pow(rm, 2))
-		click.echo(' 3m: %f' %pow(rm, 3))
-		click.echo(' 5m: %f' %pow(rm, 5))
+		print_revenue('d', f, rd)
+		print_revenue('w', f, rw)
+		print_revenue('m', f, rm)
 	elif mode == 'w':
 		rw = 1.0 + g
 		rm = pow(rw, 4)
 		ry = pow(rw, 52)
-		click.echo(' 1w: %f' %rw)
-		click.echo(' 1m: %f' %rm)
-		click.echo(' 2m: %f' %pow(rm, 2))
-		click.echo(' 3m: %f' %pow(rm, 3))
-		click.echo(' 5m: %f' %pow(rm, 5))
+		print_revenue('w', f, rw)
+		print_revenue('m', f, rm)
+	elif mode == 'm':
+		rm = 1.0 + g
+		ry = pow(rm, 12)
+		print_revenue('m', f, rm)
 	elif mode == 'y':
 		ry = 1.0 + g
 	else:
-		rm = 1.0 + g
-		ry = pow(rm, 12)
-		click.echo(' 1m: %f' %rm)
-		click.echo(' 2m: %f' %pow(rm, 2))
-		click.echo(' 3m: %f' %pow(rm, 3))
-		click.echo(' 5m: %f' %pow(rm, 5))
+		print 'please input correct \'mode\''
+		return None
 
-	click.echo(' 1y: %f' %ry)
-	click.echo(' 2y: %f' %pow(ry, 2))
-	click.echo(' 3y: %f' %pow(ry, 3))
-	click.echo(' 5y: %f' %pow(ry, 5))
-	click.echo('10y: %f' %pow(ry, 10))
+	print_revenue('y', f, ry)
 
 @cli.command()
 @click.option('--mode', default = 'y',
@@ -108,15 +99,38 @@ def reval(opt, mode, r, n, out):
 		rm = pow(r, 1.0/n)
 		rw = pow(rm, 1.0/4.0)
 		rd = pow(rm, 1.0/30.0)
-		click.echo(' 1m: %%%f' %(100 * (rm - 1.0)))
-		click.echo(' 1w: %%%f' %(100 * (rw - 1.0)))
-		click.echo(' 1d: %%%f' %(100 * (rd - 1.0)))
-	else:
+		print_growth('m', rm)
+		print_growth('w', rw)
+		print_growth('d', rd)
+	elif mode == 'y':
 		ry = pow(r, 1.0/n)
 		rm = pow(ry, 1.0/12.0)
 		rw = pow(ry, 1.0/52.0)
 		rd = pow(ry, 1.0/365.0)
-		click.echo(' 1y: %%%f' %(100 * (ry - 1.0)))
-		click.echo(' 1m: %%%f' %(100 * (rm - 1.0)))
-		click.echo(' 1w: %%%f' %(100 * (rw - 1.0)))
-		click.echo(' 1d: %%%f' %(100 * (rd - 1.0)))
+		print_growth('y', ry)
+		print_growth('m', rm)
+		print_growth('w', rw)
+		print_growth('d', rd)
+	else:
+		print 'please input correct \'mode\''
+		return None
+
+def print_revenue(mode, f, r):
+	'''Print daily, weeky, monthly or yearly revenue'''
+	if mode == 'd':
+		n = [1]
+	elif mode == 'w':
+		n = [1]
+	elif mode == 'm':
+		n = [1, 2, 3, 5]
+	elif mode == 'y':
+		n = [1, 2, 3, 5, 10]
+	else:
+		print '@print_revenue: please input correct \'mode\''
+		return None
+	for i in n:
+		click.echo('%2i%s: %f' %(i, mode, f * pow(r, i)))
+
+def print_growth(mode, r):
+	'''Print daily, weeky, monthly or yearly growth'''
+	click.echo(' 1%s: %f' %(mode, (r - 1.0)))
