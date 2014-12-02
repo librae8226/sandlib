@@ -66,6 +66,8 @@ def eval(opt, mode, f, g, out):
 		click.echo(' 2m: %f' %pow(rm, 2))
 		click.echo(' 3m: %f' %pow(rm, 3))
 		click.echo(' 5m: %f' %pow(rm, 5))
+	elif mode == 'y':
+		ry = 1.0 + g
 	else:
 		rm = 1.0 + g
 		ry = pow(rm, 12)
