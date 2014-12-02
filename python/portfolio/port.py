@@ -12,7 +12,13 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 @click.option('--path', type = click.Path())
 @pass_config
 def cli(opt, debug, path):
-	'''This script evaluates portfolio.'''
+	'''
+	This script evaluates portfolio.\n
+	e.g.\n
+	port eval --mode w -f 1 -g 0.01\n
+	port reval --mode y -r 5.0 -n 2
+	'''
+
 	opt.debug = debug
 	if path is None:
 		path = '.'
@@ -102,7 +108,7 @@ def reval(opt, mode, r, n, out):
 		rd = pow(rm, 1.0/30.0)
 		click.echo(' 1m: %%%f' %(100 * (rm - 1.0)))
 		click.echo(' 1w: %%%f' %(100 * (rw - 1.0)))
-		click.echo(' 1d: %%%f' %(100 *(rd - 1.0)))
+		click.echo(' 1d: %%%f' %(100 * (rd - 1.0)))
 	else:
 		ry = pow(r, 1.0/n)
 		rm = pow(ry, 1.0/12.0)
@@ -111,4 +117,4 @@ def reval(opt, mode, r, n, out):
 		click.echo(' 1y: %%%f' %(100 * (ry - 1.0)))
 		click.echo(' 1m: %%%f' %(100 * (rm - 1.0)))
 		click.echo(' 1w: %%%f' %(100 * (rw - 1.0)))
-		click.echo(' 1d: %%%f' %(100 *(rd - 1.0)))
+		click.echo(' 1d: %%%f' %(100 * (rd - 1.0)))
