@@ -134,3 +134,7 @@ def print_revenue(mode, f, r):
 def print_growth(mode, r):
 	'''Print daily, weeky, monthly or yearly growth'''
 	click.echo(' 1%s: %f' %(mode, (r - 1.0)))
+
+# Below lines are used to run this script directly in python env:
+#if __name__ == '__main__':
+#	cli()
