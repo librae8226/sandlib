@@ -6,5 +6,5 @@ datestr(time)
 total = [10116.88, 9736.28, 9962.49, 10089.92]
 plot(time, total)
 ax = gca()
-set (ax, "xtick", time)
 datetick(2, "keepticks")
+set(ax, "xtick", time)
