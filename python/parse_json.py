@@ -5,6 +5,9 @@ import math
 import json
 from pprint import pprint
 
+print 'Number of arguments:', len(sys.argv), 'arguments.'
+print 'Argument List:', str(sys.argv)
+
 json_data=open('public.json')
 
 data = json.load(json_data)
