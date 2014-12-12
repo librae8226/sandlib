@@ -2,22 +2,21 @@
 
 import plotly.plotly as py
 from plotly.graph_objs import *
+from datetime import datetime
 
 '''
 need to set credentials first
 '''
 
-trace0 = Scatter(
-	x = [8, 9, 10, 11, 12],
-	y = [10116.88, 9736.28, 9962.49, 10089.92, 10107.74]
-)
-cap = trace0
+# get from data server (json)
+x = [datetime(year=2014, month=12, day=8), datetime(year=2014, month=12, day=9), datetime(year=2014, month=12, day=10), datetime(year=2014, month=12, day=11), datetime(year=2014, month=12, day=12)]
+x_cap = x
+x_tot = x
+y_cap = [10000, 10000, 10000, 10000, 10000]
+y_tot = [10116.88, 9736.28, 9962.49, 10089.92, 10107.74]
 
-trace1 = Scatter(
-	x = [8, 9, 10, 11, 12],
-	y = [10000, 10000, 10000, 10000, 10000]
-)
-tot = trace1
+cap = Scatter(x = x_cap, y = y_cap)
+tot = Scatter(x = x_tot, y = y_tot)
 
 data = Data([cap, tot])
 
