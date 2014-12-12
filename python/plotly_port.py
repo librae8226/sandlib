@@ -42,8 +42,8 @@ y_cap = capital
 x_tot = x
 y_tot = total
 
-cap = Scatter(x = x_cap, y = y_cap)
-tot = Scatter(x = x_tot, y = y_tot)
+cap = Scatter(x = x_cap, y = y_cap, name = u'capital')
+tot = Scatter(x = x_tot, y = y_tot, name = u'total')
 
 data = Data([cap, tot])
 
