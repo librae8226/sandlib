@@ -34,8 +34,8 @@ for i in range(0, n):
 # HACKS HERE
 # we need a better estimating algorithm when the capital become quite
 # larger or smaller, it will not make the whole graph look stange
-capital[0] = capital[1]
-total[0] = capital[0]
+#capital[0] = capital[1]
+#total[0] = capital[0]
 
 x_cap = x
 y_cap = capital
