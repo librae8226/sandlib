@@ -21,11 +21,13 @@ def curl_get(url):
 	body = buf.getvalue()
 	return body
 
-def curl_post(url):
+# FIXME hardcode the post data name, need to be flexible
+def curl_post(url, p, info, capital, total):
 	c = pycurl.Curl()
 	c.setopt(c.URL, url)
-	c.setopt(c.HTTPHEADER, ['Phant-Private-Key: gzgnB4VazkIg7GN1g1qA'])
-	post_data = {'brewTemp':'33.4 from librae ' + str(time.time())}
+	header = 'Phant-Private-Key: ' + p
+	c.setopt(c.HTTPHEADER, [header])
+	post_data = {'info': info, 'capital': capital, 'total': total}
 	postfields = urlencode(post_data)
 	c.setopt(c.POSTFIELDS, postfields)
 	return c.perform()
@@ -60,6 +62,7 @@ def get(opt, k, out):
 	print '---- in -----'
 	click.echo('k: %s' %k)
 
+	print '---- out ----'
 	url_base = 'http://data.sparkfun.com/output/'
 	url = url_base + k + '.json'
 	print curl_get(url)
@@ -67,8 +70,11 @@ def get(opt, k, out):
 @cli.command()
 @click.option('-k', default = 'Jxyjr7DmxwTD5dG1D1Kv', help = 'public key')
 @click.option('-p', default = 'gzgnB4VazkIg7GN1g1qA', help = 'private key')
+@click.option('--info', default = 'null', help = 'info=? (post data)')
+@click.option('--capital', default = '10000.00', help = 'capital=? (post data)')
+@click.option('--total', default = '10000.00', help = 'total=? (post data)')
 @pass_config
-def post(opt, k, p):
+def post(opt, k, p, info, capital, total):
 	'''This command posts data.'''
 	if opt.debug:
 		click.echo('debug')
@@ -76,10 +82,14 @@ def post(opt, k, p):
 	print '---- in -----'
 	click.echo('k: %s' %k)
 	click.echo('p: %s' %p)
+	click.echo('info: %s' %info)
+	click.echo('capital: %s' %capital)
+	click.echo('total: %s' %total)
 
+	print '---- out ----'
 	url_base = 'http://data.sparkfun.com/input/'
 	url = url_base + k
-	print curl_post(url)
+	print curl_post(url, p, info, capital, total)
 
 # Below lines are used to run this script directly in python env:
 if __name__ == '__main__':
