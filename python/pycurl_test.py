@@ -64,7 +64,8 @@ def get(opt, k, out):
 
 	print '---- out ----'
 	url_base = 'http://data.sparkfun.com/output/'
-	url = url_base + k + '.json'
+	#url = url_base + k + '.json'
+	url = url_base + k + '.json?gt[timestamp]=now%20-1day'
 	print curl_get(url)
 
 @cli.command()
