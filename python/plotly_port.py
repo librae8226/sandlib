@@ -51,27 +51,60 @@ tot = Scatter(x = x_tot, y = y_tot, name = u'total')
 data_tot = Data([cap, tot])
 
 
-# growth-stat
-
-growth = range(0, n)
-growth_rate = range(0, n)
+# growth-stat. growth rate daily: grd. weekly: grw. monthly: grm
+# daily
+growth_daily = range(0, n)
+growth_rate_daily = range(0, n)
 
 for i in range(0, n):
 	if (i == 0):
-		growth[i] = total[i] - capital[i]
-		growth_rate[i] = growth[i]/capital[i]
+		growth_daily[i] = total[i] - capital[i]
+		growth_rate_daily[i] = growth_daily[i]/capital[i]
 	else:
-		growth[i] = total[i] - (capital[i] + (total[i-1] - capital[i-1]))
-		growth_rate[i] = growth[i]/(capital[i] + (total[i-1] - capital[i-1]))
+		growth_daily[i] = total[i] - (capital[i] + (total[i-1] - capital[i-1]))
+		growth_rate_daily[i] = growth_daily[i]/(capital[i] + (total[i-1] - capital[i-1]))
 
-x_gr = x
-y_gr = [val * 100 for val in growth_rate]
+x_grd = x
+y_grd = [val * 100 for val in growth_rate_daily]
 for i in range(0, n):
-	y_gr[i] = round(y_gr[i], 2)
+	y_grd[i] = round(y_grd[i], 2)
 
-gr = Scatter(x = x_gr, y = y_gr, name = u'growth rate')
-data_gr = Data([gr])
+grd = Scatter(x = x_grd, y = y_grd, name = u'daily growth %')
 
+# weekly, monday is 0, friday is 4
+growth_weekly = list()
+x_grw = [x[0]]
+y_grw = [0.00]
+last_friday_idx = int()
+last_week_base = float()
+
+for i in range(0, n):
+	if x[i].weekday() == 4:
+		last_friday_idx = i
+		x_grw.append(x[i])
+		if i == 4:
+			last_week_base = capital[i]
+		else:
+			last_week_base = total[i-5]
+		growth_weekly.append(total[i] - last_week_base)
+		y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
+		print 'idx:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
+
+if x[-1] != 4:
+	last_week_base = total[last_friday_idx]
+	growth_weekly.append(total[-1] - last_week_base)
+	y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
+	x_grw.append(x[-1])
+	print '-1:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
+
+grw = Scatter(x = x_grw, y = y_grw, name = u'weekly growth %')
+
+# TODO monthly
+
+
+data_gr = Data([grd, grw])
+
+# perform request to remote or print out the data
 if len(sys.argv) == 2 and sys.argv[1] == 'upload':
 	unique_url = py.plot(data_tot, filename = 'port-stat', auto_open=False)
 	print 'port-stat:', unique_url
