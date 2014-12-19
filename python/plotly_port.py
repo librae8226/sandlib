@@ -90,7 +90,7 @@ for i in range(0, n):
 		y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
 		print 'idx:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
 
-if x[-1] != 4:
+if x[-1].weekday() != 4:
 	last_week_base = total[last_friday_idx]
 	growth_weekly.append(total[-1] - last_week_base)
 	y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
