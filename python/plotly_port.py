@@ -61,8 +61,8 @@ for i in range(0, n):
 		growth_daily[i] = total[i] - capital[i]
 		growth_rate_daily[i] = growth_daily[i]/capital[i]
 	else:
-		growth_daily[i] = total[i] - (capital[i] + (total[i-1] - capital[i-1]))
-		growth_rate_daily[i] = growth_daily[i]/(capital[i] + (total[i-1] - capital[i-1]))
+		growth_daily[i] = total[i] - total[i-1] - (capital[i] - capital[i-1])
+		growth_rate_daily[i] = growth_daily[i]/(total[i-1] + (capital[i] - capital[i-1]))
 
 x_grd = x
 y_grd = [val * 100 for val in growth_rate_daily]
