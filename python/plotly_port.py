@@ -84,16 +84,15 @@ for i in range(0, n):
 		x_grw.append(x[i])
 		if i == 4:
 			last_week_base = capital[i]
-			growth_weekly.append(total[i] - last_week_base)
 		else:
-			last_week_base = total[i-5]
-			growth_weekly.append(total[i] - last_week_base - (capital[i] - capital[i-5]))
+			last_week_base = total[i-5] + (capital[i] - capital[i-5])
+		growth_weekly.append(total[i] - last_week_base)
 		y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
 		print 'idx:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
 
 if x[-1].weekday() != 4:
-	last_week_base = total[last_friday_idx]
-	growth_weekly.append(total[-1] - last_week_base - (capital[-1] - capital[last_friday_idx]))
+	last_week_base = total[last_friday_idx] + (capital[-1] - capital[last_friday_idx])
+	growth_weekly.append(total[-1] - last_week_base)
 	y_grw.append(round(100 * growth_weekly[-1]/last_week_base, 2))
 	x_grw.append(x[-1])
 	print '-1:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
