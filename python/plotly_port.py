@@ -100,7 +100,7 @@ total.append(total0[n0-1])
 
 n = len(x)
 if (n != len(xindex)):
-	print 'error!', 'n =', n, 'xindex =', xindex
+	print 'error!', 'n:', n, '!= xindex len:', len(xindex)
 	exit(-1)
 
 for i in range(0, n):
