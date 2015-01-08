@@ -151,8 +151,28 @@ y_igrd = [val * 100 for val in index_growth_rate_daily]
 for i in range(0, n):
 	y_igrd[i] = round(y_igrd[i], 2)
 
-grd = Scatter(x = x_grd, y = y_grd, name = u'daily growth %')
-igrd = Scatter(x = x_igrd, y = y_igrd, name = u'index daily growth %')
+grd = Scatter(
+	x = x_grd,
+	y = y_grd,
+	name = u'daily growth %',
+	line = Line(
+		shape='spline'
+		),
+	marker = Marker(
+		color = 'rgb(192, 128, 64)',
+		)
+	)
+igrd = Scatter(
+	x = x_igrd,
+	y = y_igrd,
+	name = u'index daily growth %',
+	line = Line(
+		shape='spline'
+		),
+	marker = Marker(
+		color = 'rgb(64, 128, 192)',
+		)
+	)
 
 # weekly, monday is 0, friday is 4
 last_friday_idx = int()
@@ -195,8 +215,28 @@ if x[-1].weekday() != 4:
 	print '-1:', i, 'last_week_base:', last_week_base, 'growth_weekly:', growth_weekly[-1], 'grw:', y_grw[-1]
 	print '-1:', i, 'last_week_index_base:', last_week_index_base, 'index_growth_weekly:', index_growth_weekly[-1], 'igrw:', y_igrw[-1]
 
-grw = Scatter(x = x_grw, y = y_grw, name = u'weekly growth %')
-igrw = Scatter(x = x_igrw, y = y_igrw, name = u'index weekly growth %')
+grw = Scatter(
+	x = x_grw,
+	y = y_grw,
+	name = u'weekly growth %',
+	line = Line(
+		shape='linear'
+		),
+	marker = Marker(
+		color = 'rgb(192, 64, 32)',
+		)
+	)
+igrw = Scatter(
+	x = x_igrw,
+	y = y_igrw,
+	name = u'index weekly growth %',
+	line = Line(
+		shape='linear'
+		),
+	marker = Marker(
+		color = 'rgb(32, 64, 192)',
+		)
+	)
 
 # TODO monthly
 
