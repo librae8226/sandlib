@@ -5,13 +5,14 @@ from plotly.graph_objs import *
 from datetime import datetime
 from datetime import timedelta
 from dateutil import parser
+import calendar
 import xml.etree.ElementTree as et
 import json
 import sys
 from subprocess import call
 
 # fetch data
-call('./get_data.sh', shell=True)
+#call('./get_data.sh', shell=True)
 
 # FIXME get from raw data server (xml)
 #       and assume we start from 2014.12.8
@@ -151,24 +152,24 @@ y_igrd = [val * 100 for val in index_growth_rate_daily]
 for i in range(0, n):
 	y_igrd[i] = round(y_igrd[i], 2)
 
-grd = Scatter(
+grd = Bar(
 	x = x_grd,
 	y = y_grd,
 	name = u'daily growth %',
-	line = Line(
-		shape='spline'
-		),
+#	line = Line(
+#		shape='spline'
+#		),
 	marker = Marker(
 		color = 'rgb(192, 128, 64)',
 		)
 	)
-igrd = Scatter(
+igrd = Bar(
 	x = x_igrd,
 	y = y_igrd,
 	name = u'index daily growth %',
-	line = Line(
-		shape='spline'
-		),
+#	line = Line(
+#		shape='spline'
+#		),
 	marker = Marker(
 		color = 'rgb(64, 128, 192)',
 		)
@@ -220,7 +221,7 @@ grw = Scatter(
 	y = y_grw,
 	name = u'weekly growth %',
 	line = Line(
-		shape='linear'
+		shape='spline'
 		),
 	marker = Marker(
 		color = 'rgb(192, 64, 32)',
@@ -231,7 +232,7 @@ igrw = Scatter(
 	y = y_igrw,
 	name = u'index weekly growth %',
 	line = Line(
-		shape='linear'
+		shape='spline'
 		),
 	marker = Marker(
 		color = 'rgb(32, 64, 192)',
@@ -239,9 +240,65 @@ igrw = Scatter(
 	)
 
 # TODO monthly
+last_month_idx = 0
+growth_monthly = [0.00]
+x_grm = [x[0]]
+y_grm = [0.00]
+last_month_base = float()
+index_growth_monthly = [0.00]
+x_igrm = [x[0]]
+y_igrm = [0.00]
+last_month_index_base = float()
+
+for i in range(0, n):
+	if (x[i].day == calendar.monthrange(x[i].year, x[i].month)[1]):
+		last_month_idx = i;
+		if (i == 23):	# first month
+			last_month_base = capital[i]
+			last_month_index_base = index[0]
+		else:
+			last_month_base = total[i - x[i].day] + (capital[i] - capital[i - x[i].day])
+			last_month_index_base = index[i - x[i].day]
+		x_grm.append(x[i])
+		x_igrm.append(x[i])
+		growth_monthly.append(round(total[i] - last_month_base, 2))
+		index_growth_monthly.append(round(index[i] - last_month_index_base, 2))
+		y_grm.append(round(100*growth_monthly[-1]/last_month_base, 2))
+		y_igrm.append(round(100*index_growth_monthly[-1]/last_month_index_base, 2))
+		print 'idx:', i, 'last_month_base:', last_month_base, 'growth_monthly:', growth_monthly[-1], 'grm:', y_grm[-1]
+		print 'idx:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrw:', y_igrw[-1]
+
+if (x[-1].day != calendar.monthrange(x[-1].year, x[-1].month)[1]):
+	last_month_base = total[last_month_idx] + (capital[-1] - capital[last_month_idx])
+	last_month_index_base = index[last_month_idx]
+	growth_monthly.append(round(total[-1] - last_month_base, 2))
+	index_growth_monthly.append(round(index[-1] - last_month_index_base, 2))
+	y_grm.append(round(100 * growth_monthly[-1]/last_month_base, 2))
+	y_igrm.append(round(100 * index_growth_monthly[-1]/last_month_index_base, 2))
+	x_grm.append(x[-1])
+	x_igrm.append(x[-1])
+	print '-1:', i, 'last_month_base:', last_month_base, 'growth_monthly:', growth_monthly[-1], 'grm:', y_grm[-1]
+	print '-1:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrw:', y_igrw[-1]
+
+grm = Scatter(
+	x = x_grm,
+	y = y_grm,
+	name = u'monthly growth %',
+	marker = Marker(
+		color = 'rgb(255, 0, 0)',
+		)
+	)
+igrm = Scatter(
+	x = x_igrm,
+	y = y_igrm,
+	name = u'index monthly growth %',
+	marker = Marker(
+		color = 'rgb(0, 0, 255)',
+		)
+	)
 
 
-data_gr = Data([grd, igrd, grw, igrw])
+data_gr = Data([grd, igrd, grw, igrw, grm, igrm])
 
 # perform request to remote or print out the data
 if len(sys.argv) == 2 and sys.argv[1] == 'upload':
@@ -260,3 +317,7 @@ else:
 	print growth_weekly
 	print y_igrw
 	print index_growth_weekly
+	print y_grm
+	print growth_monthly
+	print y_igrm
+	print index_growth_monthly
