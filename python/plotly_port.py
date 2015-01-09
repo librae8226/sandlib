@@ -152,24 +152,24 @@ y_igrd = [val * 100 for val in index_growth_rate_daily]
 for i in range(0, n):
 	y_igrd[i] = round(y_igrd[i], 2)
 
-grd = Bar(
+grd = Scatter(
 	x = x_grd,
 	y = y_grd,
 	name = u'daily growth %',
-#	line = Line(
-#		shape='spline'
-#		),
+	line = Line(
+		shape='spline'
+		),
 	marker = Marker(
 		color = 'rgb(192, 128, 64)',
 		)
 	)
-igrd = Bar(
+igrd = Scatter(
 	x = x_igrd,
 	y = y_igrd,
 	name = u'index daily growth %',
-#	line = Line(
-#		shape='spline'
-#		),
+	line = Line(
+		shape='spline'
+		),
 	marker = Marker(
 		color = 'rgb(64, 128, 192)',
 		)
