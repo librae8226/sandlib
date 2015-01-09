@@ -155,7 +155,7 @@ for i in range(0, n):
 grd = Scatter(
 	x = x_grd,
 	y = y_grd,
-	name = u'daily growth %',
+	name = u'daily %',
 	line = Line(
 		shape='spline'
 		),
@@ -166,7 +166,7 @@ grd = Scatter(
 igrd = Scatter(
 	x = x_igrd,
 	y = y_igrd,
-	name = u'index daily growth %',
+	name = u'index daily %',
 	line = Line(
 		shape='spline'
 		),
@@ -219,7 +219,7 @@ if x[-1].weekday() != 4:
 grw = Scatter(
 	x = x_grw,
 	y = y_grw,
-	name = u'weekly growth %',
+	name = u'weekly %',
 	line = Line(
 		shape='spline'
 		),
@@ -230,7 +230,7 @@ grw = Scatter(
 igrw = Scatter(
 	x = x_igrw,
 	y = y_igrw,
-	name = u'index weekly growth %',
+	name = u'index weekly %',
 	line = Line(
 		shape='spline'
 		),
@@ -283,7 +283,7 @@ if (x[-1].day != calendar.monthrange(x[-1].year, x[-1].month)[1]):
 grm = Scatter(
 	x = x_grm,
 	y = y_grm,
-	name = u'monthly growth %',
+	name = u'monthly %',
 	marker = Marker(
 		color = 'rgb(255, 0, 0)',
 		)
@@ -291,7 +291,7 @@ grm = Scatter(
 igrm = Scatter(
 	x = x_igrm,
 	y = y_igrm,
-	name = u'index monthly growth %',
+	name = u'index monthly %',
 	marker = Marker(
 		color = 'rgb(0, 0, 255)',
 		)
