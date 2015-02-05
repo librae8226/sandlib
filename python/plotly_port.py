@@ -266,7 +266,7 @@ for i in range(0, n):
 		y_grm.append(round(100*growth_monthly[-1]/last_month_base, 2))
 		y_igrm.append(round(100*index_growth_monthly[-1]/last_month_index_base, 2))
 		print 'idx:', i, 'last_month_base:', last_month_base, 'growth_monthly:', growth_monthly[-1], 'grm:', y_grm[-1]
-		print 'idx:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrw:', y_igrw[-1]
+		print 'idx:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrm:', y_igrm[-1]
 
 if (x[-1].day != calendar.monthrange(x[-1].year, x[-1].month)[1]):
 	last_month_base = total[last_month_idx] + (capital[-1] - capital[last_month_idx])
@@ -278,7 +278,7 @@ if (x[-1].day != calendar.monthrange(x[-1].year, x[-1].month)[1]):
 	x_grm.append(x[-1])
 	x_igrm.append(x[-1])
 	print '-1:', i, 'last_month_base:', last_month_base, 'growth_monthly:', growth_monthly[-1], 'grm:', y_grm[-1]
-	print '-1:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrw:', y_igrw[-1]
+	print '-1:', i, 'last_month_index_base:', last_month_index_base, 'index_growth_monthly:', index_growth_monthly[-1], 'igrm:', y_igrm[-1]
 
 grm = Scatter(
 	x = x_grm,
