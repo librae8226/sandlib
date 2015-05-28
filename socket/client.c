@@ -28,6 +28,15 @@ int main(int argc, char *argv[])
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
 		error("ERROR opening socket");
+
+	/*
+	 * debug by Librae
+	 */
+	struct timeval tv;
+	tv.tv_sec = 5;
+	tv.tv_usec = 0;
+	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const void *)&tv, sizeof(struct timeval));
+
 	server = gethostbyname(argv[1]);
 	if (server == NULL) {
 		fprintf(stderr,"ERROR, no such host\n");
