@@ -64,10 +64,12 @@ int main(int argc, char *argv[])
 				&clilen);
 		if (newsockfd < 0)
 			error("ERROR on accept");
-		bzero(buffer,256);
-		n = read(newsockfd,buffer,255);
+		else
+			printf("connection established: %d\n", newsockfd);
+		bzero(buffer, 256);
+		n = read(newsockfd, buffer, 255);
 		if (n < 0) error("ERROR reading from socket");
-		printf("Here is the message: %s\n",buffer);
+		printf("recv %d bytes: %s\n", n, buffer);
 #if 0
 		n = write(newsockfd,"I got your message",18);
 		if (n < 0) error("ERROR writing to socket");
