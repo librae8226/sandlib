@@ -1,4 +1,5 @@
 from flask import Flask, request, url_for, render_template
+from subprocess import call
 
 app = Flask(__name__)
 
@@ -39,6 +40,12 @@ def login():
 	if request.method == 'POST':
 		print 'calling do_the_login'
 		do_the_login()
+                if request.data == 'on':
+                    print 'calling on.sh'
+                    call(['on.sh'])
+                else:
+                    print 'calling off.sh'
+                    call(['off.sh'])
 	else:
 		print 'calling show_the_login_form'
 		show_the_login_form()
@@ -51,6 +58,26 @@ def do_the_login():
 def show_the_login_form():
 	"""doc for show_the_login_form"""
 	print 'show_the_login_form'
+
+@app.route('/on', methods=['GET', 'POST'])
+def on():
+	print 'on entry'
+	if request.method == 'POST':
+                    print 'calling on.sh'
+                    call(['on.sh'])
+	else:
+		print 'do nothing'
+	return 'on process done'
+
+@app.route('/off', methods=['GET', 'POST'])
+def off():
+	print 'off entry'
+	if request.method == 'POST':
+                    print 'calling off.sh'
+                    call(['off.sh'])
+	else:
+		print 'do nothing'
+	return 'off process done'
 
 with app.test_request_context():
 	print url_for('static', filename='style.css')

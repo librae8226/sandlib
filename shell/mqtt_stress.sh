@@ -1,6 +1,6 @@
 #!/bin/sh
 
-host=10.37.135.201
+host=linkgo.io
 topic=presence
 cnt=0
 
