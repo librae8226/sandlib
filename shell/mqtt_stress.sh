@@ -1,7 +1,11 @@
 #!/bin/sh
 
-host=linkgo.io
-topic=presence
+if [ $1exist = 'exist' -o $2exist = 'exist' ]; then
+	echo "Invalid arguments"
+	exit
+fi
+host=$1
+topic=$2
 cnt=0
 
 #while [ $cnt -lt 256 ] ; do
