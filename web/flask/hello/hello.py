@@ -59,25 +59,35 @@ def show_the_login_form():
 	"""doc for show_the_login_form"""
 	print 'show_the_login_form'
 
-@app.route('/on', methods=['GET', 'POST'])
-def on():
-	print 'on entry'
+@app.route('/up', methods=['GET', 'POST'])
+def up():
+	print 'up entry'
 	if request.method == 'POST':
-                    print 'calling on.sh'
-                    call(['on.sh'])
+                print 'calling up.sh'
+                call(['up.sh'])
 	else:
 		print 'do nothing'
-	return 'on process done'
+	return 'up process done'
 
-@app.route('/off', methods=['GET', 'POST'])
-def off():
-	print 'off entry'
+@app.route('/down', methods=['GET', 'POST'])
+def down():
+	print 'down entry'
 	if request.method == 'POST':
-                    print 'calling off.sh'
-                    call(['off.sh'])
+                print 'calling down.sh'
+                call(['down.sh'])
 	else:
 		print 'do nothing'
-	return 'off process done'
+	return 'down process done'
+
+@app.route('/select', methods=['GET', 'POST'])
+def select():
+	print 'select entry'
+	if request.method == 'GET':
+                print 'calling select.sh'
+                call(['select.sh'])
+	else:
+		print 'do nothing'
+	return 'select process done'
 
 with app.test_request_context():
 	print url_for('static', filename='style.css')
