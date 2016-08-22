@@ -18,19 +18,21 @@ var server = http.createServer(function (req, res) {
 	var time = new Date(parsedUrl.query.iso);
 	var result;
 
-	console.log(parsedUrl);
+//	console.log(parsedUrl);
 
 	if (/^\/api\/parsetime/.test(req.url))
 		result = parsetime(time);
 	else if (/^\/api\/unixtime/.test(req.url))
 		result = unixtime(time);
+	else
+		result = null;
 
 	if (result) {
 		res.writeHead(200, { 'Content-Type': 'application/json' });
 		res.end(JSON.stringify(result));
 	} else {
 		res.writeHead(404);
-		res.end();
+		res.end('404');
 	}
 });
 
