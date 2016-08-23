@@ -11,6 +11,9 @@ module.exports = {
     },
     host: '0.0.0.0',
     port: 8080,
+    ui: {
+      port: 8081
+    },
     files: [
       dest + '/**'
     ]

@@ -41,6 +41,9 @@ class Main extends Component {
     });
   }
 
+  handleTouchTapFire() {
+  }
+
   handleTouchTap() {
     this.setState({
       open: true,
@@ -49,11 +52,19 @@ class Main extends Component {
 
   render() {
     const standardActions = (
-      <FlatButton
-        label="Ok"
-        primary={true}
-        onTouchTap={this.handleRequestClose}
-      />
+      <div>
+        <RaisedButton
+          label="Think Over"
+          primary={true}
+          onTouchTap={this.handleRequestClose}
+        />
+        <FlatButton
+          label="OK, Fire"
+          secondary={true}
+          onTouchTap={this.handleTouchTapFire}
+          href='/red'
+        />
+      </div>
     );
 
     return (
@@ -61,16 +72,16 @@ class Main extends Component {
         <div style={styles.container}>
           <Dialog
             open={this.state.open}
-            title="Super Secret Password"
+            title="Super Secret World"
             actions={standardActions}
             onRequestClose={this.handleRequestClose}
           >
-            1-2-3-4-5
+            Are you sure ready to take the adventure?
           </Dialog>
           <h1>Material-UI</h1>
-          <h2>example project</h2>
+          <h2>the cloud of REDs</h2>
           <RaisedButton
-            label="Super Secret Password"
+            label="Super Secret World"
             secondary={true}
             onTouchTap={this.handleTouchTap}
           />
