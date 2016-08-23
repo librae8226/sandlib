@@ -9,11 +9,15 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import http from 'http';
 
 const styles = {
   container: {
     textAlign: 'center',
     paddingTop: 200,
+  },
+  button: {
+    margin: 6,
   },
 };
 
@@ -42,6 +46,7 @@ class Main extends Component {
   }
 
   handleTouchTapFire() {
+    location.href = '/red';
   }
 
   handleTouchTap() {
@@ -53,17 +58,8 @@ class Main extends Component {
   render() {
     const standardActions = (
       <div>
-        <RaisedButton
-          label="Think Over"
-          primary={true}
-          onTouchTap={this.handleRequestClose}
-        />
-        <FlatButton
-          label="OK, Fire"
-          secondary={true}
-          onTouchTap={this.handleTouchTapFire}
-          href='/red'
-        />
+        <RaisedButton label="Think Over" primary={true} style={styles.button} onTouchTap={this.handleRequestClose} />
+        <FlatButton label="OK, Fire" secondary={true} style={styles.button} onTouchTap={this.handleTouchTapFire} />
       </div>
     );
 
