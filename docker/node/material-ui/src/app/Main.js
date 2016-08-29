@@ -14,7 +14,7 @@ import http from 'http';
 const styles = {
   container: {
     textAlign: 'center',
-    paddingTop: '10%',
+    paddingTop: '15%',
   },
   button: {
     margin: 6,
