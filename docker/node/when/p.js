@@ -24,7 +24,10 @@ function c(val) {
   });
 }
 
-a('init').then(b).then(c).then(function onResolved(val) {
+a('init')
+.then(b)
+.then(c)
+.then(function onResolved(val) {
   console.log('resolved: ' + val);
 }, function onRejected(err) {
   console.log('rejected: ' + err)
