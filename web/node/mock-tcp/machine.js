@@ -13,7 +13,8 @@ const TAG = function (id) {
   return id.toString(16);
 }
 
-module.exports = {
+const machine = {
+
   data: {
     mid: 0,
     name: "test machine ?",
@@ -39,6 +40,7 @@ module.exports = {
           replycmd: 0x0,
         });
         client.write(buf);
+        //console.log(TS(), TAG(id), buf.toJSON());
       }.bind(this), 2000);
     });
 
@@ -48,8 +50,8 @@ module.exports = {
 
 
     client.on('data', (data) => {
-      console.log(TS(), TAG(id), data.toString());
-      //console.log(TS(), TAG(id), data);
+      //console.log(TS(), TAG(id), data.toString());
+      console.log(TS(), TAG(id), data);
       if (data.toString() === 'close') {
         clearInterval(heartbeat);
         client.end();
@@ -135,6 +137,7 @@ module.exports = {
 
     let buf = Buffer.concat([
         preamble,
+        len,
         mid,
         vendor,
         model,
@@ -150,3 +153,5 @@ module.exports = {
     return buf;
   }
 }
+
+module.exports = machine;
