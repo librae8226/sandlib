@@ -1,4 +1,4 @@
-const m = require('./machine')
+const machine = require('./machine')
 var n = process.argv[2];
 var sec = process.argv[3];
 
@@ -14,6 +14,7 @@ if (!sec) {
 
 for (var i = 0; i < n; i++) {
   setTimeout(function () {
+    let m = new machine(0x9000 + parseInt(Math.random()*1000) - 1);
     m.start(sec);
   }, Math.random()*sec*1000);
 }
