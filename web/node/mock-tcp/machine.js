@@ -23,7 +23,7 @@ const machine = {
     model: 1
   },
 
-  start: function(mid, vendor, model) {
+  start: function(sec) {
 
     let m = this.data;
     var heartbeat;
@@ -41,7 +41,7 @@ const machine = {
         });
         client.write(buf);
         //console.log(TS(), TAG(id), buf.toJSON());
-      }.bind(this), 2000);
+      }.bind(this), sec*1000);
     });
 
     client.on('end', () => {
