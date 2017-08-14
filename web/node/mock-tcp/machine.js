@@ -2,18 +2,33 @@ const net = require('net');
 const PORT = 59100;
 const HOST = 'txx.goiot.cc';
 
-const TS = function () {
+const TS = function() {
   let ts = (new Date()).toJSON();
   ts = ts.replace(/T/gi, ' ');
   ts = ts.replace(/Z/gi, '');
   return '[' + ts + ']';
 }
 
-const TAG = function (id) {
+const TAG = function(id) {
   return id.toString(16);
 }
 
-function machine (id) {
+function unpack(raw) {
+  let machine = {};
+  // 2nd~10th byte: mid, but we only use 4 bytes from 7th~10th
+  machine.mid = parseInt(raw.readUInt32BE(7));
+
+  // 11th, 12th: vendor, model
+  machine.vendor = parseInt(raw.readUInt8(11));
+  machine.model = parseInt(raw.readUInt8(12));
+
+  // 13th: cmd
+  machine.cmd = parseInt(raw.readUInt8(13));
+
+  return machine;
+}
+
+function machine(id) {
   this.data = {
     mid: id,
     name: "test machine ?",
@@ -34,9 +49,7 @@ machine.prototype.start = function(sec) {
   const client = net.connect({port: PORT, host: HOST}, () => {
     console.log(TS(), TAG(id), 'connected');
     heartbeat = setInterval(function () {
-      let buf = this.produce_buffer({
-        replycmd: 0x0,
-      });
+      let buf = this.produce_buffer({replycmd: 0x0});
       client.write(buf);
       //console.log(TS(), TAG(id), buf.toJSON());
     }.bind(this), sec*1000);
@@ -53,11 +66,22 @@ machine.prototype.start = function(sec) {
     if (data.toString() === 'close') {
       clearInterval(heartbeat);
       client.end();
+    } else {
+      if (data[0] == 0xaa && data.length >= 24) {
+        let m = unpack(data);
+        console.log(m);
+        if (m.cmd == 3) {
+          let buf = this.produce_buffer({replycmd: m.cmd});
+          client.write(buf);
+        }
+      } else {
+        console.log(TS(), TAG(id), 'unknown commands');
+      }
     }
   });
 }
 
-machine.prototype.produce_buffer = function (param) {
+machine.prototype.produce_buffer = function(param) {
   if (!param) {
     console.log(TS(), TAG(id), 'no param');
     return null;
