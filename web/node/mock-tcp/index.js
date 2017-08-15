@@ -16,5 +16,5 @@ for (var i = 0; i < n; i++) {
   setTimeout(function () {
     let m = new machine(0x9000 + parseInt(Math.random()*1000) - 1);
     m.start(sec);
-  }, Math.random()*sec*1000);
+  }, Math.random()*sec*1000/2);
 }

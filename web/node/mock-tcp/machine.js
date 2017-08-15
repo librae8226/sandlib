@@ -47,12 +47,6 @@ machine.prototype.start = function(sec) {
   let id = this.data.mid;
 
   const client = net.connect({port: PORT, host: HOST}, () => {
-    console.log(TS(), TAG(id), 'connected');
-    heartbeat = setInterval(function () {
-      let buf = this.produce_buffer({replycmd: 0x0});
-      client.write(buf);
-      //console.log(TS(), TAG(id), buf.toJSON());
-    }.bind(this), sec*1000);
   });
 
   client.on('end', () => {
@@ -78,6 +72,31 @@ machine.prototype.start = function(sec) {
         console.log(TS(), TAG(id), 'unknown commands');
       }
     }
+  });
+
+  client.on('connect', (e) => {
+    console.log(TS(), TAG(id), 'connected');
+    heartbeat = setInterval(function () {
+      let buf = this.produce_buffer({replycmd: 0x0});
+      client.write(buf);
+      //console.log(TS(), TAG(id), buf.toJSON());
+    }.bind(this), sec*1000);
+  });
+
+  client.on('error', (e)  => {
+    console.log(TS(), TAG(id), '');
+    console.log(e);
+    if (e.code == 'ECONNREFUSED') {
+      client.setTimeout(4000, function() {
+        client.connect(PORT, HOST, function() {
+        });
+      });
+      console.log(TS(), TAG(id), 'wait for 5 seconds before reconnect again');
+    }
+  });
+
+  client.on('close', function() {
+    console.log('Connection closed');
   });
 }
 
@@ -158,19 +177,19 @@ machine.prototype.produce_buffer = function(param) {
   let crc = Buffer.alloc(2);
 
   let buf = Buffer.concat([
-      preamble,
-      len,
-      mid,
-      vendor,
-      model,
-      replycmd,
-      ack,
-      mode,
-      status,
-      error,
-      remain,
-      reserved,
-      crc
+    preamble,
+    len,
+    mid,
+    vendor,
+    model,
+    replycmd,
+    ack,
+    mode,
+    status,
+    error,
+    remain,
+    reserved,
+    crc
   ]);
   return buf;
 }
