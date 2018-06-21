@@ -9,6 +9,5 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "shell-exec": "^1.0.1"
   }
 }
