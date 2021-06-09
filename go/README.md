@@ -18,5 +18,6 @@ docker run --rm --name go -e GOPROXY="https://goproxy.cn" -v "$PWD":/usr/src/mya
 ```
 
 OR
-
+```
 docker run -it --rm --name go -e GOPROXY="https://goproxy.cn" -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang /bin/bash
+```
